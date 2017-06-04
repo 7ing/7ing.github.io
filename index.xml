@@ -5,9 +5,10 @@
     <link>https://7ing.github.io/</link>
     <description>Recent content on 7ing</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
     <lastBuildDate>Sun, 28 Feb 2016 22:38:36 -0800</lastBuildDate>
-    <atom:link href="https://7ing.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+	<atom:link href="https://7ing.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
     
     <item>
       <title>go-flow</title>
@@ -15,133 +16,18 @@
       <pubDate>Sun, 28 Feb 2016 22:38:36 -0800</pubDate>
       
       <guid>https://7ing.github.io/article/go-flow/</guid>
-      <description>
-
-&lt;h2 id=&#34;a-cancellable-concurrent-pattern-for-go-programming-language:c2fc5eac6f32c40a11a2fcad53219d45&#34;&gt;A cancellable concurrent pattern for Go programming language&lt;/h2&gt;
-
-&lt;p&gt;Go routine and channels facilitate developers to do concurrent programming. However, it is not easy for a beginner to
-write bug-free go-routines. Especially dealing with a complex flow net, make it cancellable is not that straightforward.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;There are 5 ways to end a go routine:&lt;/strong&gt;&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;Successful return void or result(s)&lt;/li&gt;
-&lt;li&gt;Expected error return&lt;/li&gt;
-&lt;li&gt;Unexpected panic / error&lt;/li&gt;
-&lt;li&gt;Job is timeout&lt;/li&gt;
-&lt;li&gt;Job is cancelled&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;&lt;strong&gt;There are 2 actions to deal with panic:&lt;/strong&gt;&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;quit the whole process whenever there is a panic&lt;/li&gt;
-&lt;li&gt;only cancel the problematic go-routine branch (includes its sub-go-routines)&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h3 id=&#34;this-package-is-aim-to-abstract-the-flow-net-and-give-a-panic-free-solution:c2fc5eac6f32c40a11a2fcad53219d45&#34;&gt;This package is aim to abstract the flow net, and give a panic-free solution.&lt;/h3&gt;
-
-&lt;hr /&gt;
-
-&lt;h2 id=&#34;goal:c2fc5eac6f32c40a11a2fcad53219d45&#34;&gt;GOAL&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;User define the flow net&lt;/li&gt;
-&lt;li&gt;It completes the whole task or fail in all&lt;/li&gt;
-&lt;li&gt;User should get notify whether there is a panic, or error, or job succeed&lt;/li&gt;
-&lt;li&gt;User could define the timeout for the whole task&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;hr /&gt;
-
-&lt;h2 id=&#34;how-to:c2fc5eac6f32c40a11a2fcad53219d45&#34;&gt;How-To&lt;/h2&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;Note: this package requires &lt;strong&gt;&amp;ldquo;golang.org/x/net/context&amp;rdquo;&lt;/strong&gt; package&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;1st, define a flow net, together with a timeout duration&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;flow := NewFlowNet(1 * time.Millisecond)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;2nd, define a start node (must-have), a sink node (must-have), and several internal nodes (optional)
-Note that, all nodes must have a name tag. They are used by flow control.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;start := flow.InitStart(&amp;quot;Start&amp;quot;)
-A := flow.InitNode(&amp;quot;A&amp;quot;)
-B := flow.InitNode(&amp;quot;B&amp;quot;)
-C := flow.InitSink(&amp;quot;C&amp;quot;)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;3rd, define actions for each node. The function signature is &lt;strong&gt;func() error&lt;/strong&gt;. And each node could
-have multiple input and output channels, where all channels&amp;rsquo; signature is &lt;strong&gt;chan interface{}&lt;/strong&gt;. User
-could identify input channel by using &lt;strong&gt;node.From(nodeName)&lt;/strong&gt; function, and output channel by using
-&lt;strong&gt;node.To(nodeName)&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;start.Tk = func() error {
-		start.To(&amp;quot;A&amp;quot;) &amp;lt;- 1
-		start.To(&amp;quot;B&amp;quot;) &amp;lt;- &amp;quot;2&amp;quot;
-		return nil
-}
-A.Tk = func() error {
-		a := &amp;lt;-A.From(&amp;quot;Start&amp;quot;)
-		A.To(&amp;quot;C&amp;quot;) &amp;lt;- a
-		return nil
-}
-B.Tk = func() error {
-		bStr := &amp;lt;-B.From(&amp;quot;Start&amp;quot;)
-		switch bStr := bStr.(type) { 
-		case string:
-			B.To(&amp;quot;C&amp;quot;) &amp;lt;- b
-		}
-		return nil
-}
-C.Tk = func() error {
-		a := &amp;lt;-C.From(&amp;quot;A&amp;quot;)
-		b := &amp;lt;-C.From(&amp;quot;B&amp;quot;)
-		// do something with a and b
-		C.ToSink() &amp;lt;- true // indicate job is done
-		return nil
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;4th, connect the dots&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;flow.Connect(start, A)
-flow.Connect(start, B)
-flow.Connect(A, C)
-flow.Connect(B, C)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;5th, run the flow&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;flow.Run()
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;6th, cleanup the flow after use it (optional)&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;flow.Cleanup()
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;More info, please refer to &lt;a href=&#34;https://github.com/7ing/go-flow&#34;&gt;my github&lt;/a&gt;&lt;/p&gt;
-</description>
+      <description>A cancellable concurrent pattern for Go programming language Go routine and channels facilitate developers to do concurrent programming. However, it is not easy for a beginner to write bug-free fan-out/fan-in go-routines. Especially when dealing with a complex flow net, make it cancellable is not that straightforward. Consider following situations:
+There are 5 ways to exit from a go routine job:
+ Successful return void or result(s) Expected error return Unexpected panic / error Job is timeout Job is cancelled from another go routine  There are 2 actions to deal with panic / error :</description>
     </item>
     
     <item>
-      <title>about</title>
+      <title>About</title>
       <link>https://7ing.github.io/about/</link>
       <pubDate>Thu, 25 Feb 2016 22:58:38 -0800</pubDate>
       
       <guid>https://7ing.github.io/about/</guid>
-      <description>
-
-&lt;h2 id=&#34;this-is-about-me-https-sites-google-com-site-jliucv:6083a88ee3411b0d17ce02d738f69d47&#34;&gt;this is about me &lt;a href=&#34;https://sites.google.com/site/jliucv/&#34;&gt;.&lt;/a&gt;&lt;/h2&gt;
-
-&lt;h3 id=&#34;contact-me-at-here-https-docs-google-com-forms-d-1ssajwb-dvdnmarxmii7bzch1pgukytqzgkrfyn-aqba-edit-usp-forms-home-ths-true:6083a88ee3411b0d17ce02d738f69d47&#34;&gt;contact me at &lt;a href=&#34;https://docs.google.com/forms/d/1ssajwb-dVdnmARXmII7BzcH1pGUkyTQZGKrfyN-AQBA/edit?usp=forms_home&amp;amp;ths=true&#34;&gt;here&lt;/a&gt;&lt;/h3&gt;
-</description>
+      <description> This is about me . Contact me at here </description>
     </item>
     
   </channel>

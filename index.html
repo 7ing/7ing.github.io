@@ -1,83 +1,262 @@
 <!DOCTYPE html>
-<html lang="en-us">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta property="og:title" content="7ing">
-        <meta property="og:site_name" content="7ing"/>
-        <meta property="og:description" content="">
-        <meta property="og:url" content="https://7ing.github.io/" />
-        <meta property="og:locale" content="en-us">
-        <meta name="author" content="7ing">
-        <meta name="description" content="">
-        <meta name="keywords" content="go">
-        <meta name="generator" content="Hugo 0.15" />
-        <link rel="icon" href="https://7ing.github.io/assets/favicon.ico" type="image/x-icon"> 
-        <link rel="stylesheet" href="https://7ing.github.io/css/slender-base.css">
-        <link rel="stylesheet" href="https://7ing.github.io/css/slender-color-schemes.css">
-        <link rel="stylesheet" href="https://7ing.github.io/css/font-awesome-4.5.0.min.css">
-        <link rel="stylesheet" href="https://7ing.github.io/css/highlight-9.0.0-default.min.css">
-        <title>
-            
-                7ing
-            
-        </title>
-    </head>
-    <body class="color-scheme-white">
-        <div class="container">
-            <header>
-                <nav>
-                    <ul><li><a href="https://7ing.github.io/">home</a></li><li><a href="https://7ing.github.io/about/">about</a></li></ul>
-                </nav>
-                
-                    <h1 class="brand">7ing</h1>
-                    <aside>
-                        <p>R3markab1e 1dea po01</p>
-                        <p>
-                            <a href="https://github.com/7ing/"><i class="fa fa-github"></i></a>
-                            
-                            <a href="https://twitter.com/mitkook"><i class="fa fa-twitter"></i></a>
-                            <a href="https://bitbucket.org/mitkook/"><i class="fa fa-bitbucket"></i></a>
-                            <a href="http://stackexchange.com/users/3857644/mitkook"><i class="fa fa-stack-overflow"></i></a>
-                            <a href="https://www.linkedin.com/in/jliu83"><i class="fa fa-linkedin"></i></a>
-                            <a href="https://www.facebook.com/jliu1983"><i class="fa fa-facebook"></i></a>
-                        </p>
-                    </aside>
-                
-            </header>
-<section id="article-listing">
-    
-    
-    <article>
-        <h1 class="article-title"><a href="https://7ing.github.io/article/go-flow/">go-flow</a></h1>
-        <p class="article-info">
-            on <strong>Sun, Feb 28, 2016</strong> by <strong>7ing</strong> &middot; <strong>2 min reading time</strong>
-        </p>
-        <p class="article-summary">A cancellable concurrent pattern for Go programming language Go routine and channels facilitate developers to do concurrent programming. However, it is not easy for a beginner to write bug-free go-routines. Especially dealing with a complex flow net, make it cancellable is not that straightforward. There are 5 ways to end a go routine: Successful return void or result(s) Expected error return Unexpected panic / error Job is timeout Job is cancelled There are 2 actions to deal with panic: quit the whole process whenever there is a panic only cancel the problematic go-routine branch (includes its sub-go-routines) This package is aim to abstract the flow net, and give a panic-free solution.</p>
-        <a href="https://7ing.github.io/article/go-flow/"><p class="article-read-more"><a href="https://7ing.github.io/article/go-flow/">Read more &rarr;</a></p>
-    </article>
-    
-    
-    
-</section>
-        </div>
-        <footer>
-            <p>Copyright 2016 &copy; Jing</p>
-        </footer>
-        <script src="https://7ing.github.io/js/highlight-9.0.0.min.js"></script>
-        <script>hljs.initHighlightingOnLoad();</script>
-        
-        <script type="text/javascript">
-          var _gaq = _gaq || [];
-          _gaq.push(['_setAccount', 'UA-74641210-1']);
-          _gaq.push(['_trackPageview']);
+<html lang="en">
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-          (function() {
-            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-          })();
-        </script>
+  <title>7ing</title>
+  <meta property="og:title" content="7ing" />
+  <meta name="twitter:title" content="7ing" />
+  <meta name="author" content=""/>
+  <link href='https://7ing.github.io/img/blackhat.ico' rel='icon' type='image/x-icon'/>
+  <meta property="og:image" content="https://7ing.github.io/img/Spy-School-Icon-1.png" />
+  <meta name="twitter:image" content="https://7ing.github.io/img/Spy-School-Icon-1.png" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@mitkook" />
+  <meta name="twitter:creator" content="@mitkook" />
+  <meta property="og:url" content="https://7ing.github.io/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="7ing" />
+
+  <meta name="generator" content="Hugo 0.21" />
+  <link rel="canonical" href="https://7ing.github.io/" />
+  <link rel="alternate" href="https://7ing.github.io/index.xml" type="application/rss+xml" title="7ing">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://7ing.github.io/css/main.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  <link rel="stylesheet" href="https://7ing.github.io/css/pygment_highlights.css" />
+  <link rel="stylesheet" href="https://7ing.github.io/css/highlight.min.css" />
+
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-74641210-1', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src='//www.google-analytics.com/analytics.js'></script>
+
+</head>
+
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://7ing.github.io/">7ing</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
         
-    </body>
+          
+            <li>
+              <a title="About" href="/about">About</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="Tags" href="/tags">Tags</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="Home" href="/">Home</a>
+            </li>
+          
+        
+
+        
+
+        
+      </ul>
+    </div>
+
+    <div class="avatar-container">
+      <div class="avatar-img-border">
+        
+          <a title="7ing" href="https://7ing.github.io/">
+            <img class="avatar-img" src="https://7ing.github.io/img/Spy-School-Icon-1.png" alt="7ing" />
+          </a>
+        
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+
+
+
+    
+  
+  
+  
+
+
+
+
+  
+
+  <header class="header-section ">
+    
+    <div class="intro-header no-img">
+      
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <div class="page-heading">
+              <h1>7ing</h1>
+                
+                  
+                    <hr class="small">
+                    <span class="page-subheading">R3markab1e 1dea po01</span>
+                  
+                
+                
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+
+    
+  <div role="main" class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        
+
+        <div class="posts-list">
+          
+          
+            <article class="post-preview">
+              <a href="https://7ing.github.io/article/go-flow/">
+                <h2 class="post-title">go-flow</h2>
+                
+              </a>
+
+              <span class="post-meta">
+  Posted on February 28, 2016
+  
+</span>
+
+
+              <div class="post-entry">
+                
+                  A cancellable concurrent pattern for Go programming language Go routine and channels facilitate developers to do concurrent programming. However, it is not easy for a beginner to write bug-free fan-out/fan-in go-routines. Especially when dealing with a complex flow net, make it cancellable is not that straightforward. Consider following situations:
+There are 5 ways to exit from a go routine job:
+ Successful return void or result(s) Expected error return Unexpected panic / error Job is timeout Job is cancelled from another go routine  There are 2 actions to deal with panic / error :
+                  <a href="https://7ing.github.io/article/go-flow/" class="post-read-more">[Read More]</a>
+                
+              </div>
+
+              
+                <span class="post-meta">
+                
+                  #<a href="/tags/golang">golang</a>&nbsp;
+                
+                  #<a href="/tags/coding">coding</a>&nbsp;
+                
+                </span>
+              
+            </article>
+          
+        </div>
+
+        
+      </div>
+    </div>
+  </div>
+
+    <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+              <li>
+                <a href="https://www.facebook.com/drjingliu" title="Facebook">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="https://github.com/7ing" title="GitHub">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="https://twitter.com/mitkook" title="Twitter">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="https://linkedin.com/in/drjingliu" title="LinkedIn">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="https://stackoverflow.com/users/3857644/mitkook" title="StackOverflow">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-stack-overflow fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+          
+          <li>
+            <a href="https://7ing.github.io/index.xml" title="RSS">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+        </ul>
+        <p class="credits copyright text-muted">
+          Copyright 2016-2017 &copy; Jing
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.js" integrity="sha384-/y1Nn9+QQAipbNQWU65krzJralCnuOasHncUFXGkdwntGeSvQicrYkiUBwsgUqc1" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/contrib/auto-render.min.js" integrity="sha384-dq1/gEHSxPZQ7DdrM82ID4YVol9BYyU7GbWlIwnwyPzotpoc57wDw/guX8EaYGPx" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://7ing.github.io/js/main.js"></script>
+<script src="https://7ing.github.io/js/highlight.min.js"></script>
+<script> hljs.initHighlightingOnLoad(); </script>
+<script> renderMathInElement(document.body); </script>
+
+
+
+
+
+  </body>
 </html>
+
